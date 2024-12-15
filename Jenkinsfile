@@ -7,7 +7,7 @@ pipeline{
         booleanParam(name: 'executeTests', defaultValue: true, description: 'Param to make a test stage')
     }
     tools{
-        git 'Git'
+        git 'Default'
     }
     environment{
         NEW_VERSION = "1.3.0"
