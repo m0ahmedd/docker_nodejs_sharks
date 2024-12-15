@@ -1,7 +1,8 @@
+def gv
 pipeline{
     agent any
     parameters{
-        string( name: VERSION, defaultValue: '1.0', description: 'Version to deploy on production')
+        string(name: VERSION, defaultValue: '1.0', description: 'Version to deploy on production')
         choice(name: VERSION, choices: ['1.0.1', '1.0.1', '1.0.2'], description: 'Version to deploy on production')
         booleanParam(name: 'executeTests', defaultValue: true, description: 'Param to make a test stage')
     }
@@ -13,6 +14,13 @@ pipeline{
         SERVER_CREDENTIALS = "ssh-jenkins"
     }
     stages {
+        stage('init'){
+            steps{
+                script{
+                    gv = load 'script.groovy'
+                }
+            }
+        }
         stage('build'){
             steps{
                 echo 'This is the building stage...'
@@ -28,7 +36,7 @@ pipeline{
                 }
             }
             steps {
-                echo "This is the testing stage..."
+                
             }
         }
         stage('deploy'){
@@ -42,8 +50,9 @@ pipeline{
             //     echo "username is $USERNAME"
             //     }
             steps {
-                echo 'This is the deploying stage...'
-                echo "deployin version ${params.VERSION}"
+                script{
+                    gv.deployApp()
+                }
             }
         }
     }
