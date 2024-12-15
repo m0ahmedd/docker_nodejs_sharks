@@ -2,8 +2,8 @@ def gv
 pipeline{
     agent any
     parameters{
-        // string(name: VERSION, defaultValue: '1.0', description: 'Version to deploy on production')
-        choice(name: VERSION, choices: ['1.0.1', '1.0.1', '1.0.2'], description: 'Version to deploy on production')
+        // string(name: 'VERSION', defaultValue: '1.0', description: 'Version to deploy on production')
+        choice(name: 'VERSION', choices: ['1.0.1', '1.0.1', '1.0.2'], description: 'Version to deploy on production')
         booleanParam(name: 'executeTests', defaultValue: true, description: 'Param to make a test stage')
     }
     tools{
