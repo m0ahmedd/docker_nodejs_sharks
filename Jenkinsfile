@@ -1,5 +1,13 @@
 pipeline{
     agent any
+    parameters{
+        string( name: VERSION, defaultValue: '1.0', description: 'Version to deploy on production')
+        choice(name: VERSION, choices: ['1.0.1', '1.0.1', '1.0.2'], description: 'Version to deploy on production')
+        booleanParam(name: 'executeTests', defaultValue: true, description: 'Param to make a test stage')
+    }
+    tools{
+        maven 'Maven'
+    }
     enviroment{
         NEW_VERSION = "1.3.0"
         SERVER_CREDENTIALS = "ssh-jenkins"
@@ -7,7 +15,7 @@ pipeline{
     stages {
         stage('build'){
             steps{
-                echo "This is the building stage..."
+                echo 'This is the building stage...'
                 echo "Building version: ${NEW_VERSION}"
                 echo 'Building version: ${NEW_VERSION}'
             }
@@ -16,6 +24,7 @@ pipeline{
             when {
                 expression {
                     BRANCH_NAME == 'dev'
+                    params.executeTests == true
                 }
             }
             steps {
@@ -33,7 +42,8 @@ pipeline{
             //     echo "username is $USERNAME"
             //     }
             steps {
-                echo "This is the deploying stage..."
+                echo 'This is the deploying stage...'
+                echo "deployin version ${params.VERSION}"
             }
         }
     }
